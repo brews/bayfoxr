@@ -1,38 +1,171 @@
 #' Constructor for S3 prediction class.
 #'
-#' @param ensemble A data.frame of the prediciton posterior.
+#' @param ensemble A matrix (m x n) of the prediciton posteriors. Where m is the 
+#'number of values inferred and n is the number of trace draws.
 #'
-#' @return A \code{prediction} instance.
+#' @return A \code{prediction} object.
 #'
 #' @export
 prediction <- function(ensemble) {
-    structure(list("ensemble" = ensemble), class = "prediction")
+    out <- structure(list(), class = "prediction")
+    out[["ensemble"]] <- as.matrix(ensemble)
+    out
 }
 
 
-#' Quantiles for a prediction.
+#' Quantiles for a \code{prediction}.
+#'
+#' @param x A \code{prediction} object.
+#' @param ... Arguments to be passed on to \code{quantile}.
 #'
 #' @export
-quantile.fhx <- function(x, ...) {
-    stop("Function not implemented.")
+quantile.prediction <- function(x, ...) {
+    t(apply(X=x[["ensemble"]], MARGIN=1, FUN=quantile, ...))
 }
 
 
 #' Predict δ18O of foram calcite given seawater temperature and seawater δ18O.
 #'
-#' @return A \code{prediction} instance.
+#' @param seatemp Numeric or vector of observed sea-surface temperatures (°C).
+#' @param d18osw Numeric or vector of observed seawater δ18O (‰ VSMOW). 
+#' @param foram Optional. String or \code{NULL}. String indicating the foram 
+#'species/subspecies to infer for hierarchical models. String must be one of 
+#'"G. bulloides", "G. ruber white", "G. ruber pink", "G. sacculifer", 
+#'"N. incompta", or "N. pachyderma sinistral". \code{NULL} indicates that a 
+#'pooled model is desired.
+#' @param seasonal_seatemp Optional boolean indicating whether to use the seasonal 
+#'sea-surface temperature calibrations. Default is \code{FALSE}, i.e. using 
+#'annual SST calibrations.
+#' @param drawsfun Optional function used to get get model parameter draws. Must 
+#'take arguments for "foram" and "seasonal_seatemp" and return a list with 
+#'members "alpha", "beta", "tau". This is for debugging and testing.
+#'
+#' @details Four calibration models are available: an "annual pooled" model, a 
+#' "seasonal pooled" model, an "annual hierarchical" model, and a 
+#' "seasonal hierarchical" model. This function uses magic to determine which 
+# calibration model you want based on the function arguments. By default, a 
+#'"pooled annual" model is used. Which is the simplest case with potential use 
+#'for Deep Time reconstructions of nonexant foram species. Giving a valid string 
+#'for \code{foram} will use a hierarchical model, which has foram-specific 
+#'variability in calibration model parameters. Passing \code{TRUE} for 
+#'\code{seasonal_seatemp} will use a model trained on season sea-surface 
+#'temperatures. See reference paper for further details.
+#'
+#' @seealso \code{\link{predict_seatemp}}
+#'
+#' @return A \code{prediction} instance for inferred foraminiferal calcite 
+#'δ18O (‰ VPDB).
 #'
 #' @export
-predict_d18oc <- function(seatemp, d18osw, foram, seasonal_seatemp, drawsfun) {
-    stop("Function not implemented.")
+predict_d18oc <- function(seatemp, d18osw, foram=NULL, seasonal_seatemp=FALSE, 
+                          drawsfun=get_draws) {
+    params <- drawsfun(foram = foram, seasonal_seatemp = seasonal_seatemp)
+    alpha <- params[["alpha"]]
+    beta <- params[["beta"]]
+    tau <- params[["tau"]]
+
+    nd <- length(seatemp)
+    n_draws = length(tau)
+
+    # Unit adjustment
+    d18osw_adj <- d18osw - 0.27
+
+    # TODO(brews): Vectorize the loop below.
+    y <- matrix(nrow = length(seatemp), ncol = n_draws)
+    for (i in seq(n_draws)) {
+        y[, i] = stats::rnorm(n = nd, 
+                              mean = alpha[i] + seatemp * beta[i] + d18osw_adj, 
+                              sd = tau[i])
+    }
+
+    prediction(ensemble = y)
 }
 
 
-#' Predict sea-surface temperature given δ18O of calcite and seawater δ18O.
+#' Predict sea-surface temperature given δ18O of foram calcite and seawater δ18O.
 #'
-#' @return A \code{prediction} instance.
+#' @param d18oc Numeric or vector of observed foram calcite δ18O (‰ VPDB).
+#' @param d18osw Numeric or vector of observed seawater δ18O (‰ VSMOW).
+#' @param prior_mean Numeric indicating prior mean for sea-surface temperature (°C).
+#' @param prior_std Numeric indicating prior standard deviation for sea-surface 
+#'temperature (°C).
+#' @param foram Optional. String or \code{NULL}. String indicating the foram 
+#'species/subspecies to infer for hierarchical models. String must be one of 
+#'"G. bulloides", "G. ruber white", "G. ruber pink", "G. sacculifer", 
+#'"N. incompta", or "N. pachyderma sinistral". \code{NULL} indicates that a 
+#'pooled model is desired.
+#' @param seasonal_seatemp Optional boolean indicating whether to use the seasonal 
+#'sea-surface temperature calibrations. Default is \code{FALSE}, i.e. using 
+#'annual SST calibrations.
+#' @param drawsfun Optional function used to get get model parameter draws. Must 
+#'take arguments for "foram" and "seasonal_seatemp" and return a list with 
+#'members "alpha", "beta", "tau". This is for debugging and testing.
+#'
+#' @details Four calibration models are available: an "annual pooled" model, a 
+#' "seasonal pooled" model, an "annual hierarchical" model, and a 
+#' "seasonal hierarchical" model. This function uses magic to determine which 
+# calibration model you want based on the function arguments. By default, a 
+#'"pooled annual" model is used. Which is the simplest case with potential use 
+#'for Deep Time reconstructions of nonexant foram species. Giving a valid string 
+#'for \code{foram} will use a hierarchical model, which has foram-specific 
+#'variability in calibration model parameters. Passing \code{TRUE} for 
+#'\code{seasonal_seatemp} will use a model trained on season sea-surface 
+#'temperatures. See reference paper for further details.
+#'
+#' @return A \code{prediction} instance for inferred sea-surface temperature (°C).
+#'
+#' @seealso \code{\link{predict_d18oc}}
 #'
 #' @export
-predict_seatemp <- function(d18oc, d18osw, prior_mean, prior_std, foram, seasonal_seatemp, drawsfun) {
-    stop("Function not implemented.")
+predict_seatemp <- function(d18oc, d18osw, prior_mean, prior_std, foram=NULL, 
+                            seasonal_seatemp=FALSE, drawsfun=get_draws) {
+    params <- drawsfun(foram = foram, seasonal_seatemp = seasonal_seatemp)
+    alpha <- params[["alpha"]]
+    beta <- params[["beta"]]
+    tau <- params[["tau"]]
+
+    nd <- length(d18oc)
+    n_draws <- length(tau)
+
+    # Unit adjustment
+    d18osw_adj <- d18osw - 0.27
+
+    # Prior mean and inverse covariance matrix
+    pmu <- matrix(prior_mean, nrow = nd)
+    pinv_cov <- diag(prior_std ^ (-2), nrow = nd)
+
+    # TODO(brews): Vectorize the loop below.
+    y <- matrix(nrow = length(d18oc), ncol = n_draws)
+    for (i in seq(n_draws)) {
+        y[, i] <- target_timeseries_pred(d18osw_now=d18osw_adj, 
+                                         alpha_now=alpha[i],
+                                         beta_now=beta[i], tau_now=tau[i],
+                                         proxy_ts=d18oc, prior_mu=pmu,
+                                         prior_inv_cov=pinv_cov)
+    }
+
+    prediction(ensemble = y)
+}
+
+
+#' Internal function for `predict_seatemp()`.
+#'
+#' @return Sample of time time series vector conditional on the other args
+#'
+target_timeseries_pred <- function(d18osw_now, alpha_now, beta_now, tau_now, 
+                                   proxy_ts, prior_mu, prior_inv_cov) {
+    n_ts = length(proxy_ts)
+
+    # Inverse posterior covariance matrix
+    precision <- tau_now ^ (-2)
+    post_inv_cov <- prior_inv_cov + precision * beta_now ^ 2 * diag(1, n_ts)
+
+    post_cov <- solve(post_inv_cov)   # Inverse.
+
+    # Get first factor for the mean
+    mean_first_factor <- (prior_inv_cov %*% prior_mu + precision * beta_now 
+                          * (proxy_ts - alpha_now - d18osw_now))
+    mean_full <- t(mean_first_factor) %*% post_cov
+
+    stats::rnorm(n = n_ts, mean = mean_full, sd = sqrt(diag(post_cov)))
 }

@@ -1,7 +1,7 @@
-Package: deloxfoxr
+Package: bayfoxr
 Title: Experimental Bayesian Planktic Foraminifera Calibration for R
 Version: 0.0.0.9000
-Authors@R:   person("Steven", "Malevich", email = "malevich@email.arizona.edu", role = c("aut", "cre"))
+Authors@R: person("Steven", "Malevich", email = "malevich@email.arizona.edu", role = c("aut", "cre"))
 Description: Experimental Bayesian planktic foraminifera calibration, for R. Please note that this package is currently under development. It will eat your pet hamster.
 Depends: R (>= 3.5.1)
 License: GPL (>= 3)
@@ -11,3 +11,4 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
+RoxygenNote: 6.0.1
