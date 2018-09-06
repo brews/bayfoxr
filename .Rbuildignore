@@ -1,3 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.travis\.yml$
+^.*\.sublime-workspace$
+^.*\.sublime-project$
+^.*\.vscode$
+^.*\.bayfoxr\.code-workspace$
 ^data-raw$
+^cran-comments\.md$
+^LICENSE$
