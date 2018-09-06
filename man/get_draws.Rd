@@ -6,6 +6,32 @@
 \usage{
 get_draws(foram = NULL, seasonal_seatemp = FALSE)
 }
+\arguments{
+\item{foram}{Optional. String or \code{NULL}. String indicating the foram 
+species/subspecies to infer for hierarchical models. String must be one of 
+"G. bulloides", "G. ruber white", "G. ruber pink", "G. sacculifer", 
+"N. incompta", or "N. pachyderma sinistral". \code{NULL} indicates that a 
+pooled model is desired.}
+
+\item{seasonal_seatemp}{Optional boolean indicating whether to use the seasonal 
+sea-surface temperature calibrations. Default is \code{FALSE}, i.e. using 
+annual SST calibrations.}
+}
+\value{
+List with members "alpha", "beta", "tau". Which are equal-length 
+vectors of model parameter draws.
+}
 \description{
 Get MCMC trace draws.
+}
+\details{
+Four calibration models are available: an "annual pooled" model, a 
+"seasonal pooled" model, an "annual hierarchical" model, and a 
+"seasonal hierarchical" model. This function uses magic to determine which 
+"pooled annual" model is used. Which is the simplest case with potential use 
+for Deep Time reconstructions of nonexant foram species. Giving a valid string 
+for \code{foram} will use a hierarchical model, which has foram-specific 
+variability in calibration model parameters. Passing \code{TRUE} for 
+\code{seasonal_seatemp} will use a model trained on season sea-surface 
+temperatures. See reference paper for further details.
 }

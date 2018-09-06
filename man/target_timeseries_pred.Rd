@@ -7,6 +7,22 @@
 target_timeseries_pred(d18osw_now, alpha_now, beta_now, tau_now, proxy_ts,
   prior_mu, prior_inv_cov)
 }
+\arguments{
+\item{d18osw_now}{Numeric or vector giving seawater δ18O. Note, should be in 
+units (‰ VPDB).}
+
+\item{alpha_now}{Numeric, alpha model parameter.}
+
+\item{beta_now}{Numeric, beta model parameter.}
+
+\item{tau_now}{Numeric, tau model parameter.}
+
+\item{proxy_ts}{Numeric or vector of proxy time series (foram δ18O).}
+
+\item{prior_mu}{Matrix (n X 1) giving prior mean.}
+
+\item{prior_inv_cov}{Matrix (n X x) giving prior inverse covariance matrix.}
+}
 \value{
 Sample of time time series vector conditional on the other args
 }

@@ -39,7 +39,8 @@ quantile.prediction <- function(x, ...) {
 #'annual SST calibrations.
 #' @param drawsfun Optional function used to get get model parameter draws. Must 
 #'take arguments for "foram" and "seasonal_seatemp" and return a list with 
-#'members "alpha", "beta", "tau". This is for debugging and testing.
+#'members "alpha", "beta", "tau". This is for debugging and testing. See 
+#'\code{\link{get_draws}}.
 #'
 #' @details Four calibration models are available: an "annual pooled" model, a 
 #' "seasonal pooled" model, an "annual hierarchical" model, and a 
@@ -150,6 +151,15 @@ predict_seatemp <- function(d18oc, d18osw, prior_mean, prior_std, foram=NULL,
 
 
 #' Internal function for `predict_seatemp()`.
+#'
+#' @param d18osw_now Numeric or vector giving seawater δ18O. Note, should be in 
+#' units (‰ VPDB).
+#' @param alpha_now Numeric, alpha model parameter.
+#' @param beta_now Numeric, beta model parameter.
+#' @param tau_now Numeric, tau model parameter.
+#' @param proxy_ts Numeric or vector of proxy time series (foram δ18O).
+#' @param prior_mu Matrix (n X 1) giving prior mean.
+#' @param prior_inv_cov Matrix (n X x) giving prior inverse covariance matrix.
 #'
 #' @return Sample of time time series vector conditional on the other args
 #'

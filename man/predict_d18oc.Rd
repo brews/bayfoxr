@@ -24,7 +24,8 @@ annual SST calibrations.}
 
 \item{drawsfun}{Optional function used to get get model parameter draws. Must 
 take arguments for "foram" and "seasonal_seatemp" and return a list with 
-members "alpha", "beta", "tau". This is for debugging and testing.}
+members "alpha", "beta", "tau". This is for debugging and testing. See 
+\code{\link{get_draws}}.}
 }
 \value{
 A \code{prediction} instance for inferred foraminiferal calcite 
