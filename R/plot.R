@@ -10,6 +10,16 @@
 #' @param poly_col Optional color for interval polygon.
 #' @param ... Additional arguments passed to \code{plot}.
 #'
+#' @examples
+#' data(bassriver)
+#' 
+#' # Using the "pooled annual" calibration model:
+#' sst <- predict_seatemp(bassriver$d18o, d18osw=0.0, 
+#'                        prior_mean=30.0, prior_std=20.0)
+#' 
+#' predictplot(x=bassriver$depth, y=sst, ylim=c(20, 40), 
+#'             ylab="SST (°C)", xlab="Depth (m)")
+#'
 #' @export
 predictplot <- function(y, x = NULL, probs = c(0.05, 0.50, 0.95), 
                         poly_col = grDevices::rgb(0, 0, 0, 0.1), ...) {
@@ -21,7 +31,7 @@ predictplot <- function(y, x = NULL, probs = c(0.05, 0.50, 0.95),
     }
 
     probs <- sort(probs)
-    quants <- quantile(y, probs=c(0.05, 0.50, 0.95))
+    quants <- quantile(y, probs=probs)
     y_low <- quants[, 1]
     y_mid <- quants[, 2]
     y_high <- quants[, 3]
@@ -42,6 +52,16 @@ predictplot <- function(y, x = NULL, probs = c(0.05, 0.50, 0.95),
 #' @param ... Arguments passed on to \code{predictplot}.
 #'
 #' @seealso \code{\link{predictplot}}
+#'
+#' @examples
+#' data(bassriver)
+#' 
+#' # Using the "pooled annual" calibration model:
+#' sst <- predict_seatemp(bassriver$d18o, d18osw=0.0, 
+#'                        prior_mean=30.0, prior_std=20.0)
+#' 
+#' predictplot(x=bassriver$depth, y=sst, ylim=c(20, 40), 
+#'             ylab="SST (°C)", xlab="Depth (m)")
 #'
 #' @export
 plot.prediction <- function(...) {
