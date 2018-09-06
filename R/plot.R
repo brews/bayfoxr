@@ -12,7 +12,7 @@
 #'
 #' @export
 predictplot <- function(y, x = NULL, probs = c(0.05, 0.50, 0.95), 
-                        poly_col = rgb(0, 0, 0, 0.1), ...) {
+                        poly_col = grDevices::rgb(0, 0, 0, 0.1), ...) {
     if (length(probs) != 3) {
         stop("Length of `probs` must be 3")
     }
@@ -31,8 +31,9 @@ predictplot <- function(y, x = NULL, probs = c(0.05, 0.50, 0.95),
         x <- seq(1, n_row)
     }
     
-    plot(x = x, y = y_mid, type='b', ...)
-    polygon(c(x, rev(x)), c(y_low, rev(y_high)), col = poly_col, border = NA)
+    graphics::plot(x = x, y = y_mid, type='b', ...)
+    graphics::polygon(c(x, rev(x)), c(y_low, rev(y_high)), col = poly_col, 
+                        border = NA)
 }
 
 

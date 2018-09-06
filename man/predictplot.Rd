@@ -4,8 +4,8 @@
 \alias{predictplot}
 \title{Simple plot of \code{prediction} with intervals.}
 \usage{
-predictplot(y, x = NULL, probs = c(0.05, 0.5, 0.95), poly_col = rgb(0, 0,
-  0, 0.1), ...)
+predictplot(y, x = NULL, probs = c(0.05, 0.5, 0.95),
+  poly_col = grDevices::rgb(0, 0, 0, 0.1), ...)
 }
 \arguments{
 \item{y}{A \code{prediction} object to plot.}

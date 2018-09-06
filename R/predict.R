@@ -18,6 +18,7 @@ prediction <- function(ensemble) {
 #' @param x A \code{prediction} object.
 #' @param ... Arguments to be passed on to \code{quantile}.
 #'
+#' @importFrom stats quantile
 #' @export
 quantile.prediction <- function(x, ...) {
     t(apply(X=x[["ensemble"]], MARGIN=1, FUN=quantile, ...))
