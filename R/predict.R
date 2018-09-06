@@ -53,10 +53,21 @@ quantile.prediction <- function(x, ...) {
 #'\code{seasonal_seatemp} will use a model trained on season sea-surface 
 #'temperatures. See reference paper for further details.
 #'
-#' @seealso \code{\link{predict_seatemp}}
-#'
 #' @return A \code{prediction} instance for inferred foraminiferal calcite 
 #'δ18O (‰ VPDB).
+#'
+#' @seealso \code{\link{predict_seatemp}}, \code{\link{predictplot}}
+#'
+#' @examples
+#' # Infer δ18Oc for ruber white core top sample using annual hierarchical model.
+#' # The true, δ18Oc for this sample is -2.16 (‰ VPDB).
+#' delo_ann <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. ruber white")
+#' head(quantile(delo_ann, probs=c(0.159, 0.5, 0.841)))  # ± 1 standard deviation
+#'
+#' # Now using seasonal hierarchical model:
+#' delo_sea <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. ruber white",
+#'                           seasonal_seatemp = TRUE)
+#' head(quantile(delo_sea, probs=c(0.159, 0.5, 0.841)))  # ± 1 standard deviation
 #'
 #' @export
 predict_d18oc <- function(seatemp, d18osw, foram=NULL, seasonal_seatemp=FALSE, 
@@ -117,6 +128,17 @@ predict_d18oc <- function(seatemp, d18osw, foram=NULL, seasonal_seatemp=FALSE,
 #' @return A \code{prediction} instance for inferred sea-surface temperature (°C).
 #'
 #' @seealso \code{\link{predict_d18oc}}
+#'
+#' @examples
+#' data(bassriver)
+#' 
+#' # Using the "pooled annual" calibration model:
+#' sst <- predict_seatemp(bassriver$d18o, d18osw=0.0, 
+#'                        prior_mean=30.0, prior_std=20.0)
+#' head(quantile(sst))  # Show only the top few values
+#' 
+#' predictplot(x=bassriver$depth, y=sst, ylim=c(20, 40), 
+#'             ylab="SST (°C)", xlab="Depth (m)")
 #'
 #' @export
 predict_seatemp <- function(d18oc, d18osw, prior_mean, prior_std, foram=NULL, 

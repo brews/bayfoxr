@@ -48,6 +48,18 @@ variability in calibration model parameters. Passing \code{TRUE} for
 \code{seasonal_seatemp} will use a model trained on season sea-surface 
 temperatures. See reference paper for further details.
 }
+\examples{
+data(bassriver)
+
+# Using the "pooled annual" calibration model:
+sst <- predict_seatemp(bassriver$d18o, d18osw=0.0, 
+                       prior_mean=30.0, prior_std=20.0)
+head(quantile(sst))  # Show only the top few values
+
+predictplot(x=bassriver$depth, y=sst, ylim=c(20, 40), 
+            ylab="SST (°C)", xlab="Depth (m)")
+
+}
 \seealso{
 \code{\link{predict_d18oc}}
 }
