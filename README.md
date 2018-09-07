@@ -29,7 +29,7 @@ The predict function then spits out a `prediction` object. Note that we need to 
 The `sst` variable contains an ensemble rather than single prediction points because the calibration is a Bayesian regression model. This ensemble is in `sst[['ensemble']]`. Here we get median and 90% interval for the prediction:
 
 ```R
-quantile(sst, probs = c(0.05, 50, 0.95))
+quantile(sst, probs = c(0.05, 0.50, 0.95))
 ```
 
 We can also make a quick and dirty plot to visualize the inference:
