@@ -25,10 +25,10 @@ quantile.prediction <- function(x, ...) {
 }
 
 
-#' Predict δ18O of foram calcite given seawater temperature and seawater δ18O.
+#' Predict d18O of foram calcite given seawater temperature and seawater d18O.
 #'
 #' @param seatemp Numeric or vector of observed sea-surface temperatures (°C).
-#' @param d18osw Numeric or vector of observed seawater δ18O (‰ VSMOW). 
+#' @param d18osw Numeric or vector of observed seawater d18O (‰ VSMOW). 
 #' @param foram Optional. String or \code{NULL}. String indicating the foram 
 #'species/subspecies to infer for hierarchical models. String must be one of 
 #'"G. bulloides", "G. ruber white", "G. ruber pink", "G. sacculifer", 
@@ -54,13 +54,13 @@ quantile.prediction <- function(x, ...) {
 #'temperatures. See reference paper for further details.
 #'
 #' @return A \code{prediction} instance for inferred foraminiferal calcite 
-#'δ18O (‰ VPDB).
+#'d18O (‰ VPDB).
 #'
 #' @seealso \code{\link{predict_seatemp}}, \code{\link{predictplot}}
 #'
 #' @examples
-#' # Infer δ18Oc for ruber white core top sample using annual hierarchical model.
-#' # The true, δ18Oc for this sample is -2.16 (‰ VPDB).
+#' # Infer d18Oc for ruber white core top sample using annual hierarchical model.
+#' # The true, d18Oc for this sample is -2.16 (‰ VPDB).
 #' delo_ann <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. ruber white")
 #' head(quantile(delo_ann, probs=c(0.159, 0.5, 0.841)))  # ± 1 standard deviation
 #'
@@ -95,10 +95,10 @@ predict_d18oc <- function(seatemp, d18osw, foram=NULL, seasonal_seatemp=FALSE,
 }
 
 
-#' Predict sea-surface temperature given δ18O of foram calcite and seawater δ18O.
+#' Predict sea-surface temperature given d18O of foram calcite and seawater d18O.
 #'
-#' @param d18oc Numeric or vector of observed foram calcite δ18O (‰ VPDB).
-#' @param d18osw Numeric or vector of observed seawater δ18O (‰ VSMOW).
+#' @param d18oc Numeric or vector of observed foram calcite d18O (‰ VPDB).
+#' @param d18osw Numeric or vector of observed seawater d18O (‰ VSMOW).
 #' @param prior_mean Numeric indicating prior mean for sea-surface temperature (°C).
 #' @param prior_std Numeric indicating prior standard deviation for sea-surface 
 #'temperature (°C).
@@ -174,12 +174,12 @@ predict_seatemp <- function(d18oc, d18osw, prior_mean, prior_std, foram=NULL,
 
 #' Internal function for `predict_seatemp()`.
 #'
-#' @param d18osw_now Numeric or vector giving seawater δ18O. Note, should be in 
+#' @param d18osw_now Numeric or vector giving seawater d18O. Note, should be in 
 #' units (‰ VPDB).
 #' @param alpha_now Numeric, alpha model parameter.
 #' @param beta_now Numeric, beta model parameter.
 #' @param tau_now Numeric, tau model parameter.
-#' @param proxy_ts Numeric or vector of proxy time series (foram δ18O).
+#' @param proxy_ts Numeric or vector of proxy time series (foram d18O).
 #' @param prior_mu Matrix (n X 1) giving prior mean.
 #' @param prior_inv_cov Matrix (n X x) giving prior inverse covariance matrix.
 #'

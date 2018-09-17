@@ -15,7 +15,7 @@ library(bayfoxr)
 data(bassriver)
 ```
 
-The `bassriver` is example data that comes with the package. It is marine core samples from [John et al. (2008)](https://doi.org/10.1029/2007PA001465). The data.frame has two columns: "depth", giving down-core depth in meters, and "d18o", foraminifera (*Morozovella spp.*) calcite δ18O samples (‰ VPDB). The core samples cover the [Paleocene-Eocene thermal maximum (PETM)](https://en.wikipedia.org/wiki/Paleocene%E2%80%93Eocene_Thermal_Maximum).
+The `bassriver` is example data that comes with the package. It is marine core samples from [John et al. (2008)](https://doi.org/10.1029/2007PA001465). The data.frame has two columns: "depth", giving down-core depth in meters, and "d18o", foraminifera (*Morozovella spp.*) calcite d18O samples (‰ VPDB). The core samples cover the [Paleocene-Eocene thermal maximum (PETM)](https://en.wikipedia.org/wiki/Paleocene%E2%80%93Eocene_Thermal_Maximum).
 
 Let's run this data through our annual pooled calibration model to make inferences about past SST. *Morozovella spp.* is a nonexant species so, we're using modern planktic foraminifera as an analog with this pooled calibration.
 
@@ -24,7 +24,7 @@ sst <- predict_seatemp(bassriver$d18o, d18osw = 0.0,
                        prior_mean = 30.0, prior_std = 20.0)
 ```
 
-The predict function then spits out a `prediction` object. Note that we need to specify δ18O for seawater (`d18osw`), and a prior mean and standard deviation for our SST inference. See `help(predict_seatemp)` for more details, or `help(predict_d18oc)` for the reversed, "forward" model. 
+The predict function then spits out a `prediction` object. Note that we need to specify d18O for seawater (`d18osw`), and a prior mean and standard deviation for our SST inference. See `help(predict_seatemp)` for more details, or `help(predict_d18oc)` for the reversed, "forward" model. 
 
 The `sst` variable contains an ensemble rather than single prediction points because the calibration is a Bayesian regression model. This ensemble is in `sst[['ensemble']]`. Here we get median and 90% interval for the prediction:
 

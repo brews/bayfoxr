@@ -2,15 +2,15 @@
 % Please edit documentation in R/predict.R
 \name{predict_seatemp}
 \alias{predict_seatemp}
-\title{Predict sea-surface temperature given δ18O of foram calcite and seawater δ18O.}
+\title{Predict sea-surface temperature given d18O of foram calcite and seawater d18O.}
 \usage{
 predict_seatemp(d18oc, d18osw, prior_mean, prior_std, foram = NULL,
   seasonal_seatemp = FALSE, drawsfun = get_draws)
 }
 \arguments{
-\item{d18oc}{Numeric or vector of observed foram calcite δ18O (‰ VPDB).}
+\item{d18oc}{Numeric or vector of observed foram calcite d18O (‰ VPDB).}
 
-\item{d18osw}{Numeric or vector of observed seawater δ18O (‰ VSMOW).}
+\item{d18osw}{Numeric or vector of observed seawater d18O (‰ VSMOW).}
 
 \item{prior_mean}{Numeric indicating prior mean for sea-surface temperature (°C).}
 
@@ -35,7 +35,7 @@ members "alpha", "beta", "tau". This is for debugging and testing.}
 A \code{prediction} instance for inferred sea-surface temperature (°C).
 }
 \description{
-Predict sea-surface temperature given δ18O of foram calcite and seawater δ18O.
+Predict sea-surface temperature given d18O of foram calcite and seawater d18O.
 }
 \details{
 Four calibration models are available: an "annual pooled" model, a 

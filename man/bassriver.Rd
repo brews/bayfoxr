@@ -3,11 +3,11 @@
 \docType{data}
 \name{bassriver}
 \alias{bassriver}
-\title{Bass River planktic foraminiferal calcite δ18O.}
+\title{Bass River planktic foraminiferal calcite d18O.}
 \format{A data frame with 62 rows and 2 column variables:
 \describe{
   \item{depth}{marine sediment down-core sample depth, in m}
-  \item{d18o}{\emph{Morozovella spp.} shell calcite δ18O, in ‰ VPDB}
+  \item{d18o}{\emph{Morozovella spp.} shell calcite d18O, in ‰ VPDB}
 }}
 \source{
 John, C. M., S. M. Bohaty, J. C. Zachos, A. Sulijs, S. Gibbs, H. 
@@ -21,6 +21,6 @@ bassriver
 }
 \description{
 A data set containing marine sediment core samples from the Paleocene-Eocene 
-Thermal Maximum (PETM) section with well preservedforaminifera calcite δ18O.
+Thermal Maximum (PETM) section with well preservedforaminifera calcite d18O.
 }
 \keyword{datasets}

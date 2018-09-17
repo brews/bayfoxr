@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict_d18oc}
 \alias{predict_d18oc}
-\title{Predict δ18O of foram calcite given seawater temperature and seawater δ18O.}
+\title{Predict d18O of foram calcite given seawater temperature and seawater d18O.}
 \usage{
 predict_d18oc(seatemp, d18osw, foram = NULL, seasonal_seatemp = FALSE,
   drawsfun = get_draws)
@@ -10,7 +10,7 @@ predict_d18oc(seatemp, d18osw, foram = NULL, seasonal_seatemp = FALSE,
 \arguments{
 \item{seatemp}{Numeric or vector of observed sea-surface temperatures (°C).}
 
-\item{d18osw}{Numeric or vector of observed seawater δ18O (‰ VSMOW).}
+\item{d18osw}{Numeric or vector of observed seawater d18O (‰ VSMOW).}
 
 \item{foram}{Optional. String or \code{NULL}. String indicating the foram 
 species/subspecies to infer for hierarchical models. String must be one of 
@@ -29,10 +29,10 @@ members "alpha", "beta", "tau". This is for debugging and testing. See
 }
 \value{
 A \code{prediction} instance for inferred foraminiferal calcite 
-δ18O (‰ VPDB).
+d18O (‰ VPDB).
 }
 \description{
-Predict δ18O of foram calcite given seawater temperature and seawater δ18O.
+Predict d18O of foram calcite given seawater temperature and seawater d18O.
 }
 \details{
 Four calibration models are available: an "annual pooled" model, a 
@@ -46,8 +46,8 @@ variability in calibration model parameters. Passing \code{TRUE} for
 temperatures. See reference paper for further details.
 }
 \examples{
-# Infer δ18Oc for ruber white core top sample using annual hierarchical model.
-# The true, δ18Oc for this sample is -2.16 (‰ VPDB).
+# Infer d18Oc for ruber white core top sample using annual hierarchical model.
+# The true, d18Oc for this sample is -2.16 (‰ VPDB).
 delo_ann <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. ruber white")
 head(quantile(delo_ann, probs=c(0.159, 0.5, 0.841)))  # ± 1 standard deviation
 
