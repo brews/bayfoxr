@@ -18,7 +18,7 @@ sea-surface temperature calibrations. Default is \code{FALSE}, i.e. using
 annual SST calibrations.}
 }
 \value{
-List with members "alpha", "beta", "tau". Which are equal-length 
+Data frame with columns "alpha", "beta", "tau". Which are equal-length 
 vectors of model parameter draws.
 }
 \description{

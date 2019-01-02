@@ -1,3 +1,18 @@
+#' Parse trace dataframe column names to get vector of available forams.
+#'
+get_available_forams <- function(d) {
+    out = c()
+    for (cname in names(d)) {
+        if (grepl("__", cname)) {
+            # Second member should be species name.
+            foram <- strsplit(cname, "__")[[1]][-1]
+            out <- unique(c(out, foram))
+        }
+    }
+    out
+}
+
+
 #' Get MCMC trace draws.
 #' 
 #' @param foram Optional. String or \code{NULL}. String indicating the foram 
@@ -44,9 +59,16 @@ get_draws <- function(foram=NULL, seasonal_seatemp=FALSE) {
                           beta = bayfoxr:::traces[[draw_name]][["b"]],
                           tau = bayfoxr:::traces[[draw_name]][["tau"]])
     } else {  # Hierarchical
-        out <- data.frame(alpha = bayfoxr:::traces[[draw_name]][[paste("a", foram, sep = "__")]],
-                          beta = bayfoxr:::traces[[draw_name]][[paste("b", foram, sep = "__")]],
-                          tau = bayfoxr:::traces[[draw_name]][[paste("tau", foram, sep = "__")]])
+        # Check if foram name exists and give helpful error if it doesn't.
+        available_foram_names <- get_available_forams(traces[[draw_name]])
+        if (foram %in% available_foram_names) {
+            out <- data.frame(alpha = bayfoxr:::traces[[draw_name]][[paste("a", foram, sep = "__")]],
+                              beta = bayfoxr:::traces[[draw_name]][[paste("b", foram, sep = "__")]],
+                              tau = bayfoxr:::traces[[draw_name]][[paste("tau", foram, sep = "__")]])
+        } else {
+            stop(paste0("Bad `foram`: ", foram, "\nAvailable forams are: ", 
+                        toString(available_foram_names)))
+        }
     }
     out
 }
