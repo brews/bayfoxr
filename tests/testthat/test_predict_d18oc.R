@@ -3,7 +3,7 @@ context("Testing predict_d18oc()")
 
 fake_draw_dispenser <- function(a, b, tau) {
     out <- function(foram=NULL, seasonal_seatemp=FALSE){
-        list(alpha = a, beta = b, tau = tau)
+                    data.frame(alpha = a, beta = b, tau = tau)
     }
     out
 }
