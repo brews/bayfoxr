@@ -1,5 +1,10 @@
 #' Parse trace dataframe column names to get vector of available forams.
 #'
+#' @param d Data frame containing MCMC trace draws. Column names are model 
+#'parameters with foram group name separated from model parameters name by "__"
+#'
+#' @return Character vector of available foram names.
+#'
 get_available_forams <- function(d) {
     out = c()
     for (cname in names(d)) {
@@ -53,18 +58,19 @@ get_draws <- function(foram=NULL, seasonal_seatemp=FALSE) {
         time_half <- "seasonal"
     draw_name <- paste(time_half, foram_half, sep = "_")
     
+    # We're drawing from `traces` which is internal package data.
     out <- data.frame(alpha=NA, beta=NA, tau=NA)
     if (is.null(foram)) {  # Pooled
-        out <- data.frame(alpha = bayfoxr:::traces[[draw_name]][["a"]],
-                          beta = bayfoxr:::traces[[draw_name]][["b"]],
-                          tau = bayfoxr:::traces[[draw_name]][["tau"]])
+        out <- data.frame(alpha = traces[[draw_name]][["a"]],
+                          beta = traces[[draw_name]][["b"]],
+                          tau = traces[[draw_name]][["tau"]])
     } else {  # Hierarchical
         # Check if foram name exists and give helpful error if it doesn't.
         available_foram_names <- get_available_forams(traces[[draw_name]])
         if (foram %in% available_foram_names) {
-            out <- data.frame(alpha = bayfoxr:::traces[[draw_name]][[paste("a", foram, sep = "__")]],
-                              beta = bayfoxr:::traces[[draw_name]][[paste("b", foram, sep = "__")]],
-                              tau = bayfoxr:::traces[[draw_name]][[paste("tau", foram, sep = "__")]])
+            out <- data.frame(alpha = traces[[draw_name]][[paste("a", foram, sep = "__")]],
+                              beta = traces[[draw_name]][[paste("b", foram, sep = "__")]],
+                              tau = traces[[draw_name]][[paste("tau", foram, sep = "__")]])
         } else {
             stop(paste0("Bad `foram`: ", foram, "\nAvailable forams are: ", 
                         toString(available_foram_names)))
