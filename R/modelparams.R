@@ -20,7 +20,7 @@
 #'\code{seasonal_seatemp} will use a model trained on season sea-surface 
 #'temperatures. See reference paper for further details.
 #'
-#' @return List with members "alpha", "beta", "tau". Which are equal-length 
+#' @return Data frame with columns "alpha", "beta", "tau". Which are equal-length 
 #'vectors of model parameter draws.
 #'
 #' @export
@@ -38,16 +38,15 @@ get_draws <- function(foram=NULL, seasonal_seatemp=FALSE) {
         time_half <- "seasonal"
     draw_name <- paste(time_half, foram_half, sep = "_")
     
-    traces[[draw_name]]
-    out <- list()
+    out <- data.frame(alpha=NA, beta=NA, tau=NA)
     if (is.null(foram)) {  # Pooled
-        out["alpha"] <- traces[[draw_name]]["a"]
-        out["beta"] <- traces[[draw_name]]["b"]
-        out["tau"] <- traces[[draw_name]]["tau"]
+        out <- data.frame(alpha = bayfoxr:::traces[[draw_name]][["a"]],
+                          beta = bayfoxr:::traces[[draw_name]][["b"]],
+                          tau = bayfoxr:::traces[[draw_name]][["tau"]])
     } else {  # Hierarchical
-        out["alpha"] <- traces[[draw_name]][paste("a", foram, sep = "__")]
-        out["beta"] <- traces[[draw_name]][paste("b", foram, sep = "__")]
-        out["tau"] <- traces[[draw_name]][paste("tau", foram, sep = "__")]
+        out <- data.frame(alpha = bayfoxr:::traces[[draw_name]][[paste("a", foram, sep = "__")]],
+                          beta = bayfoxr:::traces[[draw_name]][[paste("b", foram, sep = "__")]],
+                          tau = bayfoxr:::traces[[draw_name]][[paste("tau", foram, sep = "__")]])
     }
     out
 }
