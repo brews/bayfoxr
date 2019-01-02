@@ -73,9 +73,9 @@ quantile.prediction <- function(x, ...) {
 predict_d18oc <- function(seatemp, d18osw, foram=NULL, seasonal_seatemp=FALSE, 
                           drawsfun=get_draws) {
     params <- drawsfun(foram = foram, seasonal_seatemp = seasonal_seatemp)
-    alpha <- params["alpha"]
-    beta <- params["beta"]
-    tau <- params["tau"]
+    alpha <- params[["alpha"]]
+    beta <- params[["beta"]]
+    tau <- params[["tau"]]
 
     nd <- length(seatemp)
     n_draws = length(tau)
