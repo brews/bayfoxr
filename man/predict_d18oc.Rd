@@ -14,9 +14,8 @@ predict_d18oc(seatemp, d18osw, foram = NULL, seasonal_seatemp = FALSE,
 
 \item{foram}{Optional. String or \code{NULL}. String indicating the foram 
 species/subspecies to infer for hierarchical models. String must be one of 
-"G. bulloides", "G. ruber white", "G. ruber pink", "G. sacculifer", 
-"N. incompta", or "N. pachyderma sinistral". \code{NULL} indicates that a 
-pooled model is desired.}
+"G. bulloides", "G. ruber", "T. sacculifer", "N. incompta", or 
+"N. pachyderma". \code{NULL} indicates that a pooled model is desired.}
 
 \item{seasonal_seatemp}{Optional boolean indicating whether to use the seasonal 
 sea-surface temperature calibrations. Default is \code{FALSE}, i.e. using 
@@ -46,13 +45,13 @@ variability in calibration model parameters. Passing \code{TRUE} for
 temperatures. See reference paper for further details.
 }
 \examples{
-# Infer d18Oc for ruber white core top sample using annual hierarchical model.
+# Infer d18Oc for a G. bulloides core top sample using annual hierarchical model.
 # The true, d18Oc for this sample is -2.16 (‰ VPDB).
-delo_ann <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. ruber white")
+delo_ann <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. bulloides")
 head(quantile(delo_ann, probs=c(0.159, 0.5, 0.841)))  # ± 1 standard deviation
 
 # Now using seasonal hierarchical model:
-delo_sea <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. ruber white",
+delo_sea <- predict_d18oc(seatemp=28.6, d18osw=0.48, foram="G. bulloides",
                           seasonal_seatemp = TRUE)
 head(quantile(delo_sea, probs=c(0.159, 0.5, 0.841)))  # ± 1 standard deviation
 

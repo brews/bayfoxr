@@ -5,7 +5,7 @@ require("devtools")
 traces <- list()
 trace_files <- Sys.glob("*_trace.csv")
 for (fl in trace_files) {
-    basename <- unlist(strsplit(fl, '_trace'))[1]
+    basename <- unlist(strsplit(fl, "_trace"))[1]
     df <- read.csv(fl, check.names = FALSE)
     traces[[basename]] <- df
 }

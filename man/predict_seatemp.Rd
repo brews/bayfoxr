@@ -19,9 +19,8 @@ temperature (°C).}
 
 \item{foram}{Optional. String or \code{NULL}. String indicating the foram 
 species/subspecies to infer for hierarchical models. String must be one of 
-"G. bulloides", "G. ruber white", "G. ruber pink", "G. sacculifer", 
-"N. incompta", or "N. pachyderma sinistral". \code{NULL} indicates that a 
-pooled model is desired.}
+"G. bulloides", "G. ruber", "T. sacculifer", "N. incompta", or 
+"N. pachyderma". \code{NULL} indicates that a pooled model is desired.}
 
 \item{seasonal_seatemp}{Optional boolean indicating whether to use the seasonal 
 sea-surface temperature calibrations. Default is \code{FALSE}, i.e. using 
