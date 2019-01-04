@@ -37,7 +37,7 @@ predictplot <- function(y, x = NULL, probs = c(0.05, 0.50, 0.95),
     y_high <- quants[, 3]
 
     if (is.null(x)) {
-        n_row <- nrow(y)
+        n_row <- nrow(y$ensemble)
         x <- seq(1, n_row)
     }
     
