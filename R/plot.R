@@ -3,7 +3,7 @@
 #'
 #' @param y A \code{prediction} object to plot.
 #' @param x Optional vector or NULL, indicating were \code{prediction} 
-#'inferrences fall along x-axis. Must be the same length as the inferred values 
+#'inferences fall along x-axis. Must be the same length as the inferred values 
 #' in \code{y}.
 #' @param probs Optional 3-member Vector of numerics indicating low, middle, and 
 #'high probability intervals to plot. All must be <= 1.

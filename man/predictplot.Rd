@@ -11,7 +11,7 @@ predictplot(y, x = NULL, probs = c(0.05, 0.5, 0.95),
 \item{y}{A \code{prediction} object to plot.}
 
 \item{x}{Optional vector or NULL, indicating were \code{prediction} 
-inferrences fall along x-axis. Must be the same length as the inferred values 
+inferences fall along x-axis. Must be the same length as the inferred values 
 in \code{y}.}
 
 \item{probs}{Optional 3-member Vector of numerics indicating low, middle, and 
