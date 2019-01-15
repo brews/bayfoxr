@@ -1,0 +1,143 @@
+---
+title: "Introduction"
+author: "S. Brewster Malevich"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This is a tutorial covering the basic features of bayfoxr. This tutorial assumes that you have a [recent version of R installed](https://www.r-project.org/) and are familiar with the R language.
+
+
+## What is bayfoxr?
+
+bayfoxr is a suite of linear Bayesian calibration models for planktic core top foraminiferal δ18O (δ18Oc) and sea surface temperature (SST). These calibrations are especially useful because they capture the uncertainty in the relationship between modern SSTs and coretop δ18Oc. This package is a companion to a paper currently under preparation for the journal "Paleoceanography and Paleoclimatology".
+
+
+## Citing bayfoxr in your research
+
+Please cite our work if you use bayfoxr in your research. We have a paper currently in preparation and I'll be sure to update this section with the citation as soon as the paper is out.
+
+To cite the code repository directly use:
+
+*Malevich, Steven B., 2019. bayfoxr. \<https://github.com/brews/bayfoxr \>.*
+
+Alternatively, you can cite the package in R's CRAN repository. You can see this information by running `citation("bayfoxr")` in an R session.
+
+
+## Installing and loading bayfoxr
+
+You can install bayfoxr from the CRAN repository with:
+
+```r
+install.packages("bayfoxr")
+```
+
+Development for bayfoxr is hosted at https://github.com/brews/bayfoxr. You can download and install directly from this github repository with the `devtools` package:
+
+```r
+devtools::install_github("brews/bayfoxr")
+```
+
+This will give you the development versions of the package. It may be unstable. I only recommend this for advanced users.
+
+Once bayfoxr has been installed, you can load it into your R session like any other R package:
+
+```{r}
+library("bayfoxr")
+```
+
+
+## Predicting sea surface temperature and foraminiferal δ18O
+
+bayfoxr revolves around two main functions, `predict_d18oc()` and `predict_seatemp()`. Unsurprisingly, these functions help us to predict δ18Oc or SST. Let's walk through a very simple case with some example sediment core data from Bass River. This data is bundled with bayfoxr, but feel free to use your own data -- just be sure it doesn't contain missing values.
+
+```{r}
+data("bassriver")  # Load the "bassriver" dataframe.
+
+head(bassriver)  # Take a quick look at what the data looks like.
+```
+
+The example data are marine core samples from [John et al. (2008)](https://doi.org/10.1029/2007PA001465). The dataframe has two columns: "depth", giving down-core depth in meters, and "d18o", foraminiferal (*Morozovella spp.*) calcite δ18O samples (‰ VPDB). The core samples cover the [Paleocene-Eocene thermal maximum (PETM)](https://en.wikipedia.org/wiki/Paleocene%E2%80%93Eocene_Thermal_Maximum).
+
+Now run this information through the `predict_seatemp()` function:
+
+```{r}
+sst <- predict_seatemp(bassriver$d18o, d18osw = 0.0, prior_mean = 30.0, 
+                       prior_std = 20.0)
+```
+
+The predict function spits out a `prediction` object. Note that we need to specify δ18O for seawater in units ‰ VSMOW (`d18osw`), and a prior mean and standard deviation for our SST inference.
+
+The `sst` variable contains an ensemble, or empirical distribution, rather than single prediction points because the calibration is a Bayesian regression model. This ensemble is in `sst[['ensemble']]`. Here we get median and 90% interval for the prediction:
+
+```{r}
+quants <- quantile(sst, probs = c(0.05, 0.50, 0.95))
+head(quants)  # Just see the top of the data...
+```
+
+We can also make a quick and dirty plot to visualize `sst`:
+
+```{r}
+predictplot(x = bassriver$depth, y = sst, ylim = c(20, 40), 
+            ylab = "SST (°C)", xlab = "Depth (m)")
+```
+
+You can see more options for `predictplot()` with `help(predictplot)`. This applies to any of the functions I've mentioned in this tutorial.
+
+Of course, predictions with the `predict_d18oc()` function are very similar to what we've already seen. Here we get a δ18Oc prediction from some made-up SST values. Note that we don't need to specify a prior mean or standard deviation with `predict_d18oc()`.
+
+```{r}
+d18oc <- predict_d18oc(c(24, 25, 23), d18osw = 0.0)
+```
+
+We can use with this prediction object just like before:
+
+```{r}
+print(quantile(d18oc))
+
+predictplot(y=d18oc, ylab="δ18Oc (‰ VPDB)", xlab='Sample', ylim = c(-3.5, 0))
+```
+
+## The four calibration models
+
+There are four calibration models available for the `predict_d18oc()` and `predict_seatemp()` prediction functions.
+
+- Pooled annual
+- Hierarchical annual
+- Pooled seasonal
+- Hierarchical seasonal
+
+The "pooled annual" model is the simplest case, as it has all foraminiferal species pooled together and calibrated against annual SST. The "hierarchical annual" model is similar, but accounts for some species-specific differences in calibration parameters. There are also the "pooled seasonal" and "hierarchical seasonal" models. These are similar to those described above, but use SSTs that are averaged to reflect general temperature preferences of foraminifera. See our 2019 paper for further details on these calibration models and their implementation.
+
+By default, `predict_d18oc()` and `predict_seatemp()` use the pooled annual calibration model. To use a seasonal model set the `seasonal_seatemp` argument to `TRUE`. To use a hierarchical model, pass a foraminiferal species name string to the `foram` argument. So, for example, our earlier
+
+```{r}
+d18oc <- predict_d18oc(c(24, 25, 23), d18osw = 0.0)
+```
+
+uses the pooled annual model. To get other variations:
+
+```{r}
+#d18oc <- predict_d18oc(c(24, 25, 23), d18osw = 0.0, seasonal_seatemp = TRUE)  # Pooled seasonal
+
+d18oc <- predict_d18oc(c(24, 25, 23), d18osw = 0.0, foram = "G. bulloides")  # Hierarchical annual for bulloides
+
+# Hierarchical seasonal for bulloides:
+d18oc <- predict_d18oc(c(24, 25, 23), d18osw = 0.0, seasonal_seatemp = TRUE,
+                       foram = "G. bulloides")
+```
+
+See `help(predict_d18oc)` or `help(predict_seatemp)` for more details including a full list of supported foram species. 
+
+Generally, the hierarchical annual, hierarchical seasonal, and pooled annual models are recommended. See our 2019 paper for further details

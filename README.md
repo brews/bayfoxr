@@ -3,9 +3,11 @@
 [![Travis-CI Build Status](https://travis-ci.org/brews/bayfoxr.svg?branch=master)](https://travis-ci.org/brews/bayfoxr)
 [![Coverage Status](https://coveralls.io/repos/github/brews/bayfoxr/badge.svg?branch=master)](https://coveralls.io/github/brews/bayfoxr?branch=master)
 
-Experimental Bayesian planktic foraminifera calibration, for R.
+A Bayesian, global planktic foraminifera coretop calibration to SSTs, for R.
 
-This code is under heavy development. Do not use it in production.
+## What is bayfoxr?
+
+bayfoxr is a suite of linear Bayesian calibration models for planktic core top foraminiferal δ18O (δ18Oc) and sea surface temperature (SST). These calibrations are especially useful because they capture the uncertainty in the relationship between modern SSTs and coretop δ18Oc. This package is a companion to a paper currently under preparation for the journal "Paleoceanography and Paleoclimatology".
 
 ## A quick example
 
@@ -38,6 +40,16 @@ We can also make a quick and dirty plot to visualize the inference:
 predictplot(x = bassriver$depth, y = sst, ylim = c(20, 40), 
             ylab = "SST (°C)", xlab = "Depth (m)")
 ```
+
+## Citing bayfoxr in your research
+
+Please cite our work if you use bayfoxr in your research. We have a paper currently in preparation and I'll be sure to update this section with the citation as soon as the paper is out.
+
+To cite the code repository directly use:
+
+*Malevich, Steven B., 2019. bayfoxr. \<https://github.com/brews/bayfoxr \>.*
+
+Alternatively, you can cite the package in R's CRAN repository. You can see this information by running `citation("bayfoxr")` in an R session.
 
 ## Installation
 
