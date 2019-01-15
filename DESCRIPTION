@@ -1,6 +1,6 @@
 Package: bayfoxr
 Title: Global Bayesian Foraminifera Coretop Calibration for R
-Version: 0.0.0.9000
+Version: 0.0.1
 Authors@R: person("Steven", "Malevich", email = "malevich@email.arizona.edu", role = c("aut", "cre"))
 Description: A Bayesian, global planktic foraminifera coretop calibration to SSTs, for R.
 Depends: R (>= 3.4)
