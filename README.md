@@ -3,11 +3,11 @@
 [![Travis-CI Build Status](https://travis-ci.org/brews/bayfoxr.svg?branch=master)](https://travis-ci.org/brews/bayfoxr)
 [![Coverage Status](https://coveralls.io/repos/github/brews/bayfoxr/badge.svg?branch=master)](https://coveralls.io/github/brews/bayfoxr?branch=master)
 
-A Bayesian, global planktic foraminifera coretop calibration to SSTs, for R.
+A Bayesian, global planktic foraminifera core top calibration to sea-surface temperature (SST), for R.
 
 ## What is bayfoxr?
 
-bayfoxr is a suite of linear Bayesian calibration models for planktic core top foraminiferal δ18O (δ18Oc) and sea surface temperature (SST). These calibrations are especially useful because they capture the uncertainty in the relationship between modern SSTs and coretop δ18Oc. This package is a companion to a paper currently under preparation for the journal "Paleoceanography and Paleoclimatology".
+bayfoxr is a suite of linear Bayesian calibration models for planktic core top foraminiferal δ18O (δ18Oc) and SSTs. These calibrations are especially useful because they capture the uncertainty in the relationship between modern SSTs and core top δ18Oc. This package is a companion to a paper currently under preparation for the journal "Paleoceanography and Paleoclimatology".
 
 ## A quick example
 
