@@ -2,7 +2,7 @@
 
 Changes in this patch:
 
-* xxxx 
+* Add CRAN install directions to README.
 
 # bayfoxr v0.0.1
 

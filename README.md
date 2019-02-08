@@ -55,7 +55,11 @@ Alternatively, you can cite the package in R's CRAN repository. You can see this
 
 ### From CRAN
 
-The package is not yet available on CRAN.
+`bayfoxr` is hosted on the offical [CRAN repository](https://cran.r-project.org/package=bayfoxr). Install it from an R session with:
+
+```R
+install.packages("bayfoxr")
+```
 
 ### From devtools
 
