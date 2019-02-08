@@ -1,6 +1,6 @@
 Package: bayfoxr
 Title: Global Bayesian Foraminifera Core Top Calibration
-Version: 0.0.1
+Version: 0.0.2.9000
 Authors@R: person("Steven", "Malevich", email = "malevich@email.arizona.edu", role = c("aut", "cre"))
 Description: A Bayesian, global planktic foraminifera core top calibration to 
     modern sea-surface temperatures. Includes four calibration models, 
