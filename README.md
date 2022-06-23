@@ -5,6 +5,8 @@
 
 A Bayesian, global planktic foraminifera core top calibration to sea-surface temperature (SST), for R.
 
+*NOTE* This repository and package is no longer actively maintained.
+
 ## What is bayfoxr?
 
 bayfoxr is a suite of linear Bayesian calibration models for planktic core top foraminiferal δ18O (δ18Oc) and SSTs. These calibrations are especially useful because they capture the uncertainty in the relationship between modern SSTs and core top δ18Oc. This package is a companion to a paper currently under preparation for the journal "Paleoceanography and Paleoclimatology".
